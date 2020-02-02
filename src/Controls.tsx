@@ -16,6 +16,7 @@ declare global {
 export function Controls() {
     const controls = React.useRef(null);
     const { camera, gl } = useThree();
+    gl.localClippingEnabled = true;
     useFrame(() => {
         if (controls && controls.current && typeof controls.current === 'function') {
             controls.current.update()
