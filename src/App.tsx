@@ -1,12 +1,9 @@
 import React from 'react';
 import * as THREE from 'three';
 import { Canvas, ReactThreeFiber, extend, useThree, useFrame } from 'react-three-fiber'
-import wood from './wood.jpg';
 import { Controls } from './Controls';
-
-const loadManager = new THREE.LoadingManager();
-const loader = new THREE.TextureLoader(loadManager);
-const woodTexture = loader.load(wood);
+import { Seat } from './parts/Seat';
+import { WoodMaterial } from './materials/WoodMaterial';
 
 interface ThingProps {
   readonly speed: number;
@@ -24,7 +21,7 @@ function Thing({ speed, size }: ThingProps) {
       onPointerOut={e => console.log('unhover')}>
       <boxBufferGeometry attach="geometry" args={[size, size, size]} />
       {/* <meshNormalMaterial attach="material" /> */}
-      <meshBasicMaterial map={woodTexture} attach="material" />
+      <WoodMaterial />
     </mesh>
   )
 }
@@ -63,11 +60,11 @@ const App: React.FC = () => {
           />
         </div>
       </div>
-      <Canvas>
+      <Canvas camera={{ fov: 75, near: 0.1, far: 1000, position: new THREE.Vector3(0, 0, -20) }}>
         <Controls />
-        <Thing speed={speed} size={size} />
+        <Seat />
       </Canvas>
-    </div>
+    </div >
   );
 }
 
