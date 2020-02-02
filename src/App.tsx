@@ -1,5 +1,12 @@
 import React from 'react';
-import { Canvas, useFrame } from 'react-three-fiber'
+import * as THREE from 'three';
+import { Canvas, ReactThreeFiber, extend, useThree, useFrame } from 'react-three-fiber'
+import wood from './wood.jpg';
+import { Controls } from './Controls';
+
+const loadManager = new THREE.LoadingManager();
+const loader = new THREE.TextureLoader(loadManager);
+const woodTexture = loader.load(wood);
 
 interface ThingProps {
   readonly speed: number;
@@ -16,11 +23,11 @@ function Thing({ speed, size }: ThingProps) {
       onPointerOver={e => console.log('hover')}
       onPointerOut={e => console.log('unhover')}>
       <boxBufferGeometry attach="geometry" args={[size, size, size]} />
-      <meshNormalMaterial attach="material" />
+      {/* <meshNormalMaterial attach="material" /> */}
+      <meshBasicMaterial map={woodTexture} attach="material" />
     </mesh>
   )
 }
-
 
 const App: React.FC = () => {
   const [speed, setSpeed] = React.useState(0);
@@ -57,6 +64,7 @@ const App: React.FC = () => {
         </div>
       </div>
       <Canvas>
+        <Controls />
         <Thing speed={speed} size={size} />
       </Canvas>
     </div>
